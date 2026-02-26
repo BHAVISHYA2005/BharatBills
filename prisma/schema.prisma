@@ -1,0 +1,97 @@
+// This is your Prisma schema file.
+// Learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id    Int     @id @default(autoincrement())
+  email String  @unique
+  name  String?
+  password String
+  createdAt DateTime @default(now())
+  
+  invoices Invoice[]
+  customers Customer[]
+  products Product[]
+}
+
+model Customer {
+  id    Int     @id @default(autoincrement())
+  userId Int
+  user  User @relation(fields: [userId], references: [id])
+  
+  name String
+  email String?
+  phone String?
+  gstin String?
+  address String?
+  state String?
+  createdAt DateTime @default(now())
+  
+  invoices Invoice[]
+}
+
+model Product {
+  id    Int     @id @default(autoincrement())
+  userId Int
+  user  User @relation(fields: [userId], references: [id])
+  
+  name String
+  hsnCode String
+  gstRate Int // 5, 12, 18, 28
+  price Float
+  description String?
+  createdAt DateTime @default(now())
+  
+  invoiceItems InvoiceItem[]
+}
+
+model Invoice {
+  id    Int     @id @default(autoincrement())
+  userId Int
+  user  User @relation(fields: [userId], references: [id])
+  
+  invoiceNumber String @unique
+  customerId Int
+  customer Customer @relation(fields: [customerId], references: [id])
+  
+  invoiceDate DateTime
+  dueDate DateTime?
+  status String @default("draft") // draft, sent, paid, overdue, cancelled
+  
+  subtotal Float @default(0)
+  cgst Float @default(0)
+  sgst Float @default(0)
+  igst Float @default(0)
+  totalTax Float @default(0)
+  totalAmount Float @default(0)
+  
+  notes String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  items InvoiceItem[]
+}
+
+model InvoiceItem {
+  id    Int     @id @default(autoincrement())
+  invoiceId Int
+  invoice Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  
+  productId Int
+  product Product @relation(fields: [productId], references: [id])
+  
+  quantity Int
+  unitPrice Float
+  lineTotal Float
+  gstRate Int
+  
+  createdAt DateTime @default(now())
+}
