@@ -4,6 +4,7 @@ import { useEffect, useState, use } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft, Download, Trash2 } from 'lucide-react';
+import { showToast } from '@/components/Toaster';
 
 interface InvoiceDetail {
     id: number;
@@ -45,14 +46,26 @@ export default function InvoiceDetailPage({ params }: { params: Promise<{ id: st
     }, [id]);
 
     const updateStatus = async (status: string) => {
-        await fetch(`/api/invoices/${id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ status }) });
-        setInvoice(prev => prev ? { ...prev, status } : prev);
+        const res = await fetch(`/api/invoices/${id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ status }) });
+        const data = await res.json();
+        if (data.success) {
+            showToast(`Invoice marked as ${status}`);
+            setInvoice(prev => prev ? { ...prev, status } : prev);
+        } else {
+            showToast('Failed to update status', 'error');
+        }
     };
 
     const handleDelete = async () => {
         if (!confirm('Delete this invoice permanently?')) return;
-        await fetch(`/api/invoices/${id}`, { method: 'DELETE' });
-        router.push('/dashboard/invoices');
+        const res = await fetch(`/api/invoices/${id}`, { method: 'DELETE' });
+        const data = await res.json();
+        if (data.success) {
+            showToast('Invoice deleted');
+            router.push('/dashboard/invoices');
+        } else {
+            showToast('Failed to delete invoice', 'error');
+        }
     };
 
     if (loading) return <div style={{ display: 'flex', justifyContent: 'center', paddingTop: 100 }}><div className="spinner" style={{ width: 32, height: 32 }} /></div>;

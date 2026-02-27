@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { ArrowLeft, Plus, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 import { INDIAN_STATES } from '@/lib/gst';
+import { showToast } from '@/components/Toaster';
 
 interface Customer { id: number; name: string; state: string | null; gstin: string | null; }
 interface Product { id: number; name: string; hsnCode: string; gstRate: number; price: number; }
@@ -80,7 +81,15 @@ export default function NewInvoicePage() {
     }, [items, isInterstate]);
 
     const handleSubmit = async () => {
-        if (!customerId || items.length === 0) return;
+        if (!customerId || items.length === 0) {
+            showToast('Please select a customer and add at least one item', 'error');
+            return;
+        }
+        if (!sellerState) {
+            showToast('Please select your state (Seller State)', 'error');
+            return;
+        }
+
         setSaving(true);
         const res = await fetch('/api/invoices', {
             method: 'POST',
@@ -92,7 +101,13 @@ export default function NewInvoicePage() {
         });
         const data = await res.json();
         setSaving(false);
-        if (data.success) router.push(`/dashboard/invoices/${data.data.id}`);
+
+        if (data.success) {
+            showToast('Invoice created successfully');
+            router.push(`/dashboard/invoices/${data.data.id}`);
+        } else {
+            showToast(data.error || 'Failed to create invoice', 'error');
+        }
     };
 
     if (loading) return <div style={{ display: 'flex', justifyContent: 'center', paddingTop: 100 }}><div className="spinner" style={{ width: 32, height: 32 }} /></div>;

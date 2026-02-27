@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { Plus, Search, Edit2, Trash2, X } from 'lucide-react';
 import { VALID_GST_RATES } from '@/lib/gst';
+import { showToast } from '@/components/Toaster';
 
 interface Product {
     id: number;
@@ -50,16 +51,30 @@ export default function ProductsPage() {
         setSaving(true);
         const url = editing ? `/api/products/${editing.id}` : '/api/products';
         const method = editing ? 'PUT' : 'POST';
-        await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(form) });
+        const res = await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(form) });
+        const data = await res.json();
         setSaving(false);
-        setShowModal(false);
-        fetchProducts();
+
+        if (data.success) {
+            showToast(editing ? 'Product updated successfully' : 'Product added successfully');
+            setShowModal(false);
+            fetchProducts();
+        } else {
+            showToast(data.error || 'Failed to save product', 'error');
+        }
     };
 
     const handleDelete = async (id: number) => {
         if (!confirm('Delete this product?')) return;
-        await fetch(`/api/products/${id}`, { method: 'DELETE' });
-        fetchProducts();
+        const res = await fetch(`/api/products/${id}`, { method: 'DELETE' });
+        const data = await res.json();
+
+        if (data.success) {
+            showToast('Product deleted');
+            fetchProducts();
+        } else {
+            showToast('Failed to delete product', 'error');
+        }
     };
 
     if (loading) return <div style={{ display: 'flex', justifyContent: 'center', paddingTop: 100 }}><div className="spinner" style={{ width: 32, height: 32 }} /></div>;

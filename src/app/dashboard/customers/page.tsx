@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { Plus, Search, Edit2, Trash2, X } from 'lucide-react';
 import { INDIAN_STATES } from '@/lib/gst';
+import { showToast } from '@/components/Toaster';
 
 interface Customer {
     id: number;
@@ -50,16 +51,30 @@ export default function CustomersPage() {
         setSaving(true);
         const url = editing ? `/api/customers/${editing.id}` : '/api/customers';
         const method = editing ? 'PUT' : 'POST';
-        await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(form) });
+        const res = await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(form) });
+        const data = await res.json();
         setSaving(false);
-        setShowModal(false);
-        fetchCustomers();
+
+        if (data.success) {
+            showToast(editing ? 'Customer updated successfully' : 'Customer added successfully');
+            setShowModal(false);
+            fetchCustomers();
+        } else {
+            showToast(data.error || 'Failed to save customer', 'error');
+        }
     };
 
     const handleDelete = async (id: number) => {
         if (!confirm('Delete this customer?')) return;
-        await fetch(`/api/customers/${id}`, { method: 'DELETE' });
-        fetchCustomers();
+        const res = await fetch(`/api/customers/${id}`, { method: 'DELETE' });
+        const data = await res.json();
+
+        if (data.success) {
+            showToast('Customer deleted');
+            fetchCustomers();
+        } else {
+            showToast('Failed to delete customer', 'error');
+        }
     };
 
     if (loading) return <div style={{ display: 'flex', justifyContent: 'center', paddingTop: 100 }}><div className="spinner" style={{ width: 32, height: 32 }} /></div>;
