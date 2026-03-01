@@ -33,7 +33,16 @@ export async function verifyToken(token: string) {
     }
 }
 
+import { auth } from "@/auth";
+
 export async function getSession() {
+    // Try NextAuth session first
+    const session = await auth();
+    if (session?.user?.id) {
+        return { userId: parseInt(session.user.id), email: session.user.email || '' };
+    }
+
+    // Fallback to custom JWT
     const cookieStore = await cookies();
     const token = cookieStore.get(COOKIE_NAME)?.value;
     if (!token) return null;

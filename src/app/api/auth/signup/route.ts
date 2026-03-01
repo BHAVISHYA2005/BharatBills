@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { hashPassword, createToken, setAuthCookie } from '@/lib/auth';
+export const dynamic = 'force-dynamic';
 
 export async function POST(request: Request) {
     try {
@@ -34,7 +35,7 @@ export async function POST(request: Request) {
             data: { name, email, password: hashedPassword },
         });
 
-        const token = await createToken({ userId: user.id, email: user.email });
+        const token = await createToken({ userId: user.id, email: user.email || '' });
         const response = NextResponse.json(
             { success: true, data: { id: user.id, name: user.name, email: user.email } },
             { status: 201 }

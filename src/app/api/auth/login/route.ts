@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { verifyPassword, createToken, setAuthCookie } from '@/lib/auth';
+export const dynamic = 'force-dynamic';
 
 export async function POST(request: Request) {
     try {
@@ -15,7 +16,7 @@ export async function POST(request: Request) {
         }
 
         const user = await prisma.user.findUnique({ where: { email } });
-        if (!user) {
+        if (!user || !user.password) {
             return NextResponse.json(
                 { success: false, error: 'Invalid email or password' },
                 { status: 401 }
@@ -30,7 +31,7 @@ export async function POST(request: Request) {
             );
         }
 
-        const token = await createToken({ userId: user.id, email: user.email });
+        const token = await createToken({ userId: user.id, email: user.email || '' });
         const response = NextResponse.json(
             { success: true, data: { id: user.id, name: user.name, email: user.email } }
         );

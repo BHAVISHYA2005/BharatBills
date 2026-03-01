@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { signIn } from 'next-auth/react';
 
 export default function LoginPage() {
     const router = useRouter();
@@ -16,15 +17,14 @@ export default function LoginPage() {
         setLoading(true);
 
         try {
-            const res = await fetch('/api/auth/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(form),
+            const result = await signIn('credentials', {
+                email: form.email,
+                password: form.password,
+                redirect: false,
             });
-            const data = await res.json();
 
-            if (!res.ok) {
-                setError(data.error || 'Login failed');
+            if (result?.error) {
+                setError('Invalid email or password');
                 return;
             }
             router.push('/dashboard');
@@ -94,9 +94,7 @@ export default function LoginPage() {
                         <button
                             className="btn btn-secondary btn-lg"
                             style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, background: 'white', color: 'var(--text)' }}
-                            onClick={() => {
-                                window.location.href = '/api/auth/signin/google';
-                            }}
+                            onClick={() => signIn('google', { redirectTo: '/dashboard' })}
                         >
                             <svg width="18" height="18" viewBox="0 0 18 18">
                                 <path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z" fill="#4285F4" />
