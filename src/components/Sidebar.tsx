@@ -30,7 +30,7 @@ export default function Sidebar() {
     const nav = (
         <>
             <div style={{ padding: '24px 20px', borderBottom: '1px solid var(--sidebar-hover)' }}>
-                <Link href="/dashboard" style={{ textDecoration: 'none' }} onClick={() => setMobileOpen(false)}>
+                <Link href="/" style={{ textDecoration: 'none' }} onClick={() => setMobileOpen(false)}>
                     <h1 style={{ fontSize: 22, fontWeight: 700, color: 'white', margin: 0 }}>
                         <span style={{ color: 'var(--primary)' }}>Bharat</span>Bills
                     </h1>

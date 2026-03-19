@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-import { ArrowLeft, Plus, Trash2 } from 'lucide-react';
+import { ArrowLeft, Plus, Trash2, AlertCircle } from 'lucide-react';
 import Link from 'next/link';
 import { INDIAN_STATES } from '@/lib/gst';
 import { showToast } from '@/components/Toaster';
@@ -38,6 +38,9 @@ export default function NewInvoicePage() {
             setCustomers(c.data || []);
             setProducts(p.data || []);
             setLoading(false);
+        }).catch(() => {
+            showToast('Failed to load data', 'error');
+            setLoading(false);
         });
     }, []);
 
@@ -45,7 +48,10 @@ export default function NewInvoicePage() {
     const isInterstate = sellerState && selectedCustomer?.state && sellerState !== selectedCustomer.state;
 
     const addItem = () => {
-        if (products.length === 0) return;
+        if (products.length === 0) {
+            showToast('Please add products first', 'error');
+            return;
+        }
         const p = products[0];
         setItems([...items, { productId: p.id, productName: p.name, hsnCode: p.hsnCode, quantity: 1, unitPrice: p.price, gstRate: p.gstRate }]);
     };
@@ -121,6 +127,31 @@ export default function NewInvoicePage() {
                 <h1 style={{ fontSize: 24, fontWeight: 700 }}>Create New Invoice</h1>
             </div>
 
+            {/* Empty state check */}
+            {(customers.length === 0 || products.length === 0) && (
+                <div className="card" style={{ marginBottom: 20 }}>
+                    <div className="card-body" style={{ textAlign: 'center', padding: '40px 20px' }}>
+                        <AlertCircle size={48} style={{ color: 'var(--warning)', marginBottom: 16 }} />
+                        <h3 style={{ fontSize: 18, fontWeight: 600, marginBottom: 8 }}>Setup Required</h3>
+                        <p style={{ color: 'var(--text-secondary)', marginBottom: 20 }}>
+                            You need to add {customers.length === 0 && products.length === 0 ? 'customers and products' : customers.length === 0 ? 'customers' : 'products'} before creating an invoice.
+                        </p>
+                        <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+                            {customers.length === 0 && (
+                                <Link href="/dashboard/customers" className="btn btn-secondary">
+                                    <Plus size={16} /> Add Customer
+                                </Link>
+                            )}
+                            {products.length === 0 && (
+                                <Link href="/dashboard/products" className="btn btn-secondary">
+                                    <Plus size={16} /> Add Product
+                                </Link>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            )}
+
             {/* Invoice details */}
             <div className="card" style={{ marginBottom: 20 }}>
                 <div className="card-body">
@@ -128,10 +159,11 @@ export default function NewInvoicePage() {
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 14 }}>
                         <div>
                             <label className="label">Customer *</label>
-                            <select className="input" value={customerId} onChange={(e) => setCustomerId(Number(e.target.value))}>
+                            <select className="input" value={customerId} onChange={(e) => setCustomerId(Number(e.target.value))} disabled={customers.length === 0}>
                                 <option value={0}>Select customer</option>
                                 {customers.map(c => <option key={c.id} value={c.id}>{c.name}{c.gstin ? ` (${c.gstin})` : ''}</option>)}
                             </select>
+                            {customers.length === 0 && <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>No customers added yet</span>}
                         </div>
                         <div>
                             <label className="label">Your State (Seller) *</label>
@@ -163,13 +195,19 @@ export default function NewInvoicePage() {
             <div className="card" style={{ marginBottom: 20 }}>
                 <div style={{ padding: '16px 24px', borderBottom: '1px solid var(--border-light)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <h3 style={{ fontSize: 15, fontWeight: 600 }}>Line Items</h3>
-                    <button className="btn btn-secondary btn-sm" onClick={addItem}><Plus size={14} /> Add Item</button>
+                    <button className="btn btn-secondary btn-sm" onClick={addItem} disabled={products.length === 0}><Plus size={14} /> Add Item</button>
                 </div>
                 <div style={{ padding: 24 }}>
                     {items.length === 0 ? (
-                        <div className="empty-state" style={{ padding: 30 }}>
-                            <p>Add items to your invoice</p>
-                            <button className="btn btn-primary btn-sm" onClick={addItem}><Plus size={14} /> Add First Item</button>
+                        <div style={{ textAlign: 'center', padding: 30 }}>
+                            {products.length === 0 ? (
+                                <>
+                                    <p style={{ color: 'var(--text-secondary)', marginBottom: 12 }}>No products available</p>
+                                    <Link href="/dashboard/products" className="btn btn-primary btn-sm"><Plus size={14} /> Add First Product</Link>
+                                </>
+                            ) : (
+                                <button className="btn btn-primary btn-sm" onClick={addItem}><Plus size={14} /> Add First Item</button>
+                            )}
                         </div>
                     ) : (
                         <div style={{ overflowX: 'auto' }}>
