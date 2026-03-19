@@ -1,29 +1,31 @@
-import { auth } from "@/auth";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { verifyToken } from "@/lib/auth";
 
-export default auth((req: NextRequest & { auth: { user?: { id: string } } | null }) => {
-    const { nextUrl } = req;
-    const isLoggedIn = !!req.auth;
-
-    const isApiAuthRoute = nextUrl.pathname.startsWith("/api/auth");
-    const isPublicRoute = nextUrl.pathname === "/" || nextUrl.pathname.startsWith("/auth");
-    const isDashboardRoute = nextUrl.pathname.startsWith("/dashboard");
+export async function middleware(req: NextRequest) {
+    const { pathname } = req.nextUrl;
+    
+    const isApiAuthRoute = pathname.startsWith("/api/auth");
+    const isPublicRoute = pathname === "/" || pathname.startsWith("/auth");
+    const isDashboardRoute = pathname.startsWith("/dashboard");
 
     if (isApiAuthRoute) return;
 
+    const token = req.cookies.get("bb_token")?.value;
+    const isLoggedIn = token ? !!(await verifyToken(token)) : false;
+
     if (isPublicRoute) {
-        if (isLoggedIn && nextUrl.pathname.startsWith("/auth")) {
-            return Response.redirect(new URL("/dashboard", nextUrl));
+        if (isLoggedIn && pathname.startsWith("/auth")) {
+            return NextResponse.redirect(new URL("/dashboard", req.url));
         }
         return;
     }
 
     if (!isLoggedIn && isDashboardRoute) {
-        return Response.redirect(new URL("/auth/login", nextUrl));
+        return NextResponse.redirect(new URL("/auth/login", req.url));
     }
 
     return;
-});
+}
 
 export const config = {
     matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
