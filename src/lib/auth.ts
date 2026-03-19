@@ -3,7 +3,7 @@ import { SignJWT, jwtVerify } from 'jose';
 import { cookies } from 'next/headers';
 
 const JWT_SECRET = new TextEncoder().encode(
-    process.env.JWT_SECRET || 'bharatbills-dev-secret-change-in-production'
+    process.env.AUTH_SECRET || 'bharatbills-dev-secret-change-in-production'
 );
 
 const COOKIE_NAME = 'bb_token';
@@ -33,16 +33,7 @@ export async function verifyToken(token: string) {
     }
 }
 
-import { auth } from "@/auth";
-
 export async function getSession() {
-    // Try NextAuth session first
-    const session = await auth();
-    if (session?.user?.id) {
-        return { userId: parseInt(session.user.id), email: session.user.email || '' };
-    }
-
-    // Fallback to custom JWT
     const cookieStore = await cookies();
     const token = cookieStore.get(COOKIE_NAME)?.value;
     if (!token) return null;
@@ -57,7 +48,7 @@ export function setAuthCookie(token: string) {
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'lax' as const,
         path: '/',
-        maxAge: 60 * 60 * 24 * 7, // 7 days
+        maxAge: 60 * 60 * 24 * 7,
     };
 }
 
