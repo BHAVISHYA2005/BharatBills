@@ -1,12 +1,7 @@
 import { PrismaClient } from '@prisma/client'
-import { PrismaPg } from '@prisma/adapter-pg'
-import pg from 'pg'
 
 const prismaClientSingleton = () => {
-    // Use explicit connection pool for reliable connectivity
-    const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL })
-    const adapter = new PrismaPg(pool)
-    return new PrismaClient({ adapter })
+    return new PrismaClient()
 }
 
 declare const globalThis: {
