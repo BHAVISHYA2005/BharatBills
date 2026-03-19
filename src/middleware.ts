@@ -1,17 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
-import { verifyToken } from "@/lib/auth";
 
-export async function middleware(req: NextRequest) {
+export function middleware(req: NextRequest) {
     const { pathname } = req.nextUrl;
     
-    const isApiAuthRoute = pathname.startsWith("/api/auth");
     const isPublicRoute = pathname === "/" || pathname.startsWith("/auth");
     const isDashboardRoute = pathname.startsWith("/dashboard");
 
-    if (isApiAuthRoute) return;
-
     const token = req.cookies.get("bb_token")?.value;
-    const isLoggedIn = token ? !!(await verifyToken(token)) : false;
+    const isLoggedIn = !!token;
 
     if (isPublicRoute) {
         if (isLoggedIn && pathname.startsWith("/auth")) {
