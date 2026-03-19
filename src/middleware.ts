@@ -1,6 +1,7 @@
 import { auth } from "@/auth";
+import { NextRequest } from "next/server";
 
-export default auth((req) => {
+export default auth((req: NextRequest & { auth: { user?: { id: string } } | null }) => {
     const { nextUrl } = req;
     const isLoggedIn = !!req.auth;
 
