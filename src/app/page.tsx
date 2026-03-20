@@ -76,7 +76,7 @@ export default function Home() {
       {/* Hero Section */}
       <header className="relative pt-28 md:pt-32 pb-16 md:pb-20 px-6 md:px-8 overflow-hidden">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-8 md:gap-12 items-center">
-          <div className="relative z-10 order-2 lg:order-1">
+          <div className="relative z-10 order-2 lg:order-1" style={{ zIndex: 1 }}>
             <span className="inline-block px-4 py-1.5 mb-6 text-xs font-bold tracking-widest text-[var(--primary)] bg-[var(--primary-light)] rounded-full">
               GST COMPLIANCE REDEFINED
             </span>
@@ -112,10 +112,10 @@ export default function Home() {
           </div>
           
           {/* Hero Image */}
-          <div className="relative order-1 lg:order-2">
+          <div className="relative order-1 lg:order-2" style={{ zIndex: 1 }}>
             <div className="absolute -top-16 -right-16 md:-top-20 md:-right-20 w-64 h-64 md:w-96 md:h-96 bg-[var(--primary-container)]/10 blur-[100px] rounded-full"></div>
-            <div className="relative glass-card p-3 md:p-4 rounded-2xl md:rounded-3xl shadow-[0px_40px_80px_rgba(14,28,46,0.1)] border border-white/40">
-              <div className="bg-gradient-to-br from-[var(--surface-container-low)] to-[var(--surface-container)] rounded-xl md:rounded-2xl p-4 md:p-6">
+            <div className="relative bg-white/80 backdrop-blur-xl p-4 md:p-6 rounded-2xl md:rounded-3xl shadow-[0px_40px_80px_rgba(14,28,46,0.15)] border border-white/50">
+              <div className="bg-white rounded-xl md:rounded-2xl p-4 md:p-6 shadow-sm border border-[var(--surface-container-high)]">
                 <div className="flex items-center justify-between mb-4 md:mb-6">
                   <span className="text-xs md:text-sm font-semibold text-[var(--on-surface)]">Revenue Overview</span>
                   <span className="text-xs text-[var(--success)] font-medium">+24.5%</span>
@@ -131,7 +131,7 @@ export default function Home() {
                   <span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span>
                 </div>
               </div>
-              <div className="absolute -bottom-4 md:-bottom-8 -left-4 md:-left-8 glass-card p-4 md:p-6 rounded-xl md:rounded-2xl shadow-xl max-w-[160px] md:max-w-[200px]">
+              <div className="absolute -bottom-4 md:-bottom-8 -left-4 md:-left-8 bg-white/80 backdrop-blur-xl p-4 md:p-6 rounded-xl md:rounded-2xl shadow-xl max-w-[160px] md:max-w-[200px] border border-white/50" style={{ zIndex: 2 }}>
                 <div className="flex items-center gap-2 md:gap-3 mb-2">
                   <Verified size={18} className="text-[var(--primary)]" />
                   <span className="text-xs font-bold text-[var(--on-surface)]">GST Ready</span>
