@@ -195,6 +195,53 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Testimonials */}
+      <section className="py-20 md:py-32 px-6 md:px-8 overflow-hidden">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-[var(--on-surface)] mb-12 md:mb-20 max-w-3xl leading-tight">
+            Designed for the <span className="text-[var(--primary)] italic">next generation</span> of Indian entrepreneurs.
+          </h2>
+          <div className="grid md:grid-cols-2 gap-12 md:gap-16 items-center">
+            <div className="space-y-8 md:space-y-12">
+              <div className="border-l-4 border-[var(--primary)] pl-6 md:pl-8 relative z-10">
+                <p className="text-lg md:text-xl lg:text-2xl font-medium text-[var(--on-surface)] leading-relaxed mb-4 md:mb-6">
+                  "Switching to BharatBills was the best decision for our retail chain. GST compliance used to be a nightmare, now it's just a background task."
+                </p>
+                <div>
+                  <p className="font-bold text-[var(--on-surface)]">Rajesh Kumar</p>
+                  <p className="text-sm text-[var(--on-tertiary-fixed-variant)]">CEO, Kumar Electronics</p>
+                </div>
+              </div>
+            </div>
+            <div className="relative z-10">
+              <div className="bg-gradient-to-br from-[var(--surface-container-low)] to-[var(--surface-container)] rounded-[2rem] md:rounded-[3rem] shadow-2xl p-6 md:p-8">
+                <div className="text-center mb-6">
+                  <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-gradient-to-br from-[var(--primary)] to-[var(--primary-container)] mx-auto mb-4 flex items-center justify-center">
+                    <span className="text-2xl md:text-3xl font-black text-white">RK</span>
+                  </div>
+                  <h4 className="font-bold text-[var(--on-surface)] text-lg md:text-xl">Invoicing Dashboard</h4>
+                  <p className="text-sm text-[var(--on-tertiary-fixed-variant)]">Real-time GST tracking</p>
+                </div>
+                <div className="grid grid-cols-3 gap-3 md:gap-4">
+                  <div className="bg-white rounded-xl p-3 md:p-4 text-center">
+                    <p className="text-xl md:text-2xl font-bold text-[var(--primary)]">156</p>
+                    <p className="text-xs text-[var(--on-tertiary-fixed-variant)]">Invoices</p>
+                  </div>
+                  <div className="bg-white rounded-xl p-3 md:p-4 text-center">
+                    <p className="text-xl md:text-2xl font-bold text-[var(--success)]">₹4.2L</p>
+                    <p className="text-xs text-[var(--on-tertiary-fixed-variant)]">Revenue</p>
+                  </div>
+                  <div className="bg-white rounded-xl p-3 md:p-4 text-center">
+                    <p className="text-xl md:text-2xl font-bold text-[var(--info)]">98%</p>
+                    <p className="text-xs text-[var(--on-tertiary-fixed-variant)]">GST Filed</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="py-20 px-6 md:px-8">
         <div className="max-w-4xl mx-auto text-center">
