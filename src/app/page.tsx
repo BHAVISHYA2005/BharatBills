@@ -1,11 +1,19 @@
 'use client';
 
 import Link from 'next/link';
-import { Verified, Wallet, Zap, Package, BarChart3, Shield, ArrowRight, Menu, X, FileText, Building2, Users } from 'lucide-react';
+import { Verified, Wallet, Zap, Package, BarChart3, Shield, ArrowRight, Menu, X } from 'lucide-react';
 import { useState } from 'react';
+import { FloatingNav } from '@/components/ui/FloatingNav';
 
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const navItems = [
+    { name: 'Features', link: '/features' },
+    { name: 'Compliance', link: '/compliance' },
+    { name: 'Pricing', link: '/pricing' },
+    { name: 'About', link: '/about' },
+  ];
 
   const features = [
     { icon: Wallet, title: 'One-Click GST Filing', desc: 'Direct integration with GSTN allows you to reconcile and file returns in seconds.', badge: 'GSTR-1 Ready', colSpan: 'md:col-span-2' },
@@ -17,8 +25,11 @@ export default function Home() {
 
   return (
     <div className="bg-[var(--background)] min-h-screen">
-      {/* Navigation */}
-      <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-xl" style={{ boxShadow: '0px 20px 40px rgba(14,28,46,0.06)' }}>
+      {/* Floating Nav (appears on scroll) */}
+      <FloatingNav navItems={navItems} />
+
+      {/* Static Header */}
+      <header className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-xl" style={{ boxShadow: '0px 20px 40px rgba(14,28,46,0.06)' }}>
         <div className="flex justify-between items-center px-6 md:px-8 py-4 max-w-7xl mx-auto">
           <div className="flex items-center gap-2">
             <span className="text-xl md:text-2xl font-black tracking-tighter text-[var(--on-surface)]">BharatBills</span>
@@ -26,10 +37,10 @@ export default function Home() {
           
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-8">
-            <a className="text-[var(--primary)] font-bold border-b-2 border-[var(--primary)] pb-1 text-sm tracking-tight" href="#">Features</a>
-            <a className="text-[var(--on-surface)] hover:text-[var(--primary)] transition-colors text-sm tracking-tight" href="#">Compliance</a>
-            <a className="text-[var(--on-surface)] hover:text-[var(--primary)] transition-colors text-sm tracking-tight" href="#">Pricing</a>
-            <a className="text-[var(--on-surface)] hover:text-[var(--primary)] transition-colors text-sm tracking-tight" href="#">About</a>
+            <Link className="text-[var(--primary)] font-bold border-b-2 border-[var(--primary)] pb-1 text-sm tracking-tight" href="/features">Features</Link>
+            <Link className="text-[var(--on-surface)] hover:text-[var(--primary)] transition-colors text-sm tracking-tight" href="/compliance">Compliance</Link>
+            <Link className="text-[var(--on-surface)] hover:text-[var(--primary)] transition-colors text-sm tracking-tight" href="/pricing">Pricing</Link>
+            <Link className="text-[var(--on-surface)] hover:text-[var(--primary)] transition-colors text-sm tracking-tight" href="/about">About</Link>
           </div>
           
           <div className="hidden md:flex items-center gap-4">
@@ -48,10 +59,10 @@ export default function Home() {
         {/* Mobile Menu */}
         {mobileMenuOpen && (
           <div className="md:hidden bg-white border-t border-[var(--surface-container-highest)] px-6 py-4 space-y-4">
-            <a className="block text-[var(--primary)] font-bold" href="#">Features</a>
-            <a className="block text-[var(--on-surface)]" href="#">Compliance</a>
-            <a className="block text-[var(--on-surface)]" href="#">Pricing</a>
-            <a className="block text-[var(--on-surface)]" href="#">About</a>
+            <Link className="block text-[var(--primary)] font-bold" href="/features">Features</Link>
+            <Link className="block text-[var(--on-surface)]" href="/compliance">Compliance</Link>
+            <Link className="block text-[var(--on-surface)]" href="/pricing">Pricing</Link>
+            <Link className="block text-[var(--on-surface)]" href="/about">About</Link>
             <div className="pt-4 border-t border-[var(--surface-container-highest)] space-y-3">
               <Link href="/auth/login" className="block text-[var(--on-surface)] font-medium">Login</Link>
               <Link href="/auth/signup" className="signature-gradient text-white px-6 py-2.5 rounded-lg font-bold text-sm inline-block">
@@ -60,7 +71,7 @@ export default function Home() {
             </div>
           </div>
         )}
-      </nav>
+      </header>
 
       {/* Hero Section */}
       <header className="relative pt-28 md:pt-32 pb-16 md:pb-20 px-6 md:px-8 overflow-hidden">
@@ -70,7 +81,14 @@ export default function Home() {
               GST COMPLIANCE REDEFINED
             </span>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-[var(--on-surface)] leading-[1.05] tracking-tight mb-6 md:mb-8">
-              Invoicing that <span className="text-transparent bg-clip-text signature-gradient">Empowers</span> Indian SMBs.
+              Invoicing that{' '}
+              <span className="relative inline-block">
+                <span className="relative z-10 text-transparent bg-clip-text signature-gradient">
+                  Empowers
+                </span>
+                <span className="absolute -inset-2 bg-white/50 rounded-full blur-xl" />
+              </span>{' '}
+              Indian SMBs.
             </h1>
             <p className="text-base md:text-lg text-[var(--on-tertiary-fixed-variant)] mb-8 md:mb-10 max-w-xl leading-relaxed">
               The energetic authority in GST filing and professional invoicing. Seamlessly manage your finances with the precision of a bank and the speed of a startup.
@@ -115,7 +133,7 @@ export default function Home() {
               </div>
               <div className="absolute -bottom-4 md:-bottom-8 -left-4 md:-left-8 glass-card p-4 md:p-6 rounded-xl md:rounded-2xl shadow-xl max-w-[160px] md:max-w-[200px]">
                 <div className="flex items-center gap-2 md:gap-3 mb-2">
-                  <Verified size={18} className="text-[var(--primary)] fill-current" />
+                  <Verified size={18} className="text-[var(--primary)]" />
                   <span className="text-xs font-bold text-[var(--on-surface)]">GST Ready</span>
                 </div>
                 <div className="h-2 w-full bg-[var(--surface-container-high)] rounded-full overflow-hidden">
@@ -136,7 +154,6 @@ export default function Home() {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-            {/* Large Feature */}
             <div className="md:col-span-2 bg-white p-8 md:p-10 rounded-2xl md:rounded-3xl hover:shadow-[0px_20px_40px_rgba(14,28,46,0.06)] transition-all flex flex-col justify-between relative overflow-hidden">
               <div className="relative z-10">
                 <Wallet size={40} className="text-[var(--primary)] mb-4 md:mb-6" />
@@ -149,7 +166,6 @@ export default function Home() {
               </div>
             </div>
             
-            {/* Accent Feature */}
             <div className="bg-[var(--primary-container)] p-8 md:p-10 rounded-2xl md:rounded-3xl flex flex-col justify-between text-white relative overflow-hidden">
               <div>
                 <Zap size={40} className="mb-4 md:mb-6" />
@@ -158,7 +174,6 @@ export default function Home() {
               <p className="text-white/80 text-sm md:text-base">Generate professional, GST-compliant invoices and send them via WhatsApp or Email instantly.</p>
             </div>
             
-            {/* Small Features */}
             <div className="bg-white p-6 md:p-8 lg:p-10 rounded-2xl md:rounded-3xl hover:shadow-[0px_20px_40px_rgba(14,28,46,0.06)] transition-all">
               <Package size={36} className="text-[var(--primary)] mb-4 md:mb-6" />
               <h3 className="text-lg md:text-xl font-bold mb-2">Inventory Management</h3>
@@ -180,72 +195,18 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section className="py-20 md:py-32 px-6 md:px-8 overflow-hidden">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-[var(--on-surface)] mb-12 md:mb-20 max-w-3xl leading-tight">
-            Designed for the <span className="text-[var(--primary)] italic">next generation</span> of Indian entrepreneurs.
-          </h2>
-          <div className="grid md:grid-cols-2 gap-12 md:gap-16 items-start">
-            <div className="space-y-12 md:space-y-16">
-              <div className="border-l-4 border-[var(--primary)] pl-6 md:pl-8">
-                <p className="text-lg md:text-xl lg:text-2xl font-medium text-[var(--on-surface)] leading-relaxed mb-4 md:mb-6">
-                  "Switching to BharatBills was the best decision for our retail chain. GST compliance used to be a nightmare, now it's just a background task."
-                </p>
-                <div>
-                  <p className="font-bold text-[var(--on-surface)]">Rajesh Kumar</p>
-                  <p className="text-sm text-[var(--on-tertiary-fixed-variant)]">CEO, Kumar Electronics</p>
-                </div>
-              </div>
-            </div>
-            <div className="relative">
-              <div className="absolute top-0 right-0 w-full h-full signature-gradient rounded-[2rem] md:rounded-[3rem] rotate-3 -z-10"></div>
-              <div className="bg-gradient-to-br from-[var(--surface-container-low)] to-[var(--surface-container)] rounded-[2rem] md:rounded-[3rem] shadow-2xl p-6 md:p-8">
-                <div className="text-center mb-6">
-                  <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-gradient-to-br from-[var(--primary)] to-[var(--primary-container)] mx-auto mb-4 flex items-center justify-center">
-                    <span className="text-2xl md:text-3xl font-black text-white">RK</span>
-                  </div>
-                  <h4 className="font-bold text-[var(--on-surface)] text-lg md:text-xl">Invoicing Dashboard</h4>
-                  <p className="text-sm text-[var(--on-tertiary-fixed-variant)]">Real-time GST tracking</p>
-                </div>
-                <div className="grid grid-cols-3 gap-3 md:gap-4">
-                  <div className="bg-white rounded-xl p-3 md:p-4 text-center">
-                    <p className="text-xl md:text-2xl font-bold text-[var(--primary)]">156</p>
-                    <p className="text-xs text-[var(--on-tertiary-fixed-variant)]">Invoices</p>
-                  </div>
-                  <div className="bg-white rounded-xl p-3 md:p-4 text-center">
-                    <p className="text-xl md:text-2xl font-bold text-[var(--success)]">₹4.2L</p>
-                    <p className="text-xs text-[var(--on-tertiary-fixed-variant)]">Revenue</p>
-                  </div>
-                  <div className="bg-white rounded-xl p-3 md:p-4 text-center">
-                    <p className="text-xl md:text-2xl font-bold text-[var(--info)]">98%</p>
-                    <p className="text-xs text-[var(--on-tertiary-fixed-variant)]">GST Filed</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* CTA */}
-      <section className="py-16 md:py-24 px-6 md:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="signature-gradient rounded-2xl md:rounded-[3rem] p-10 md:p-16 lg:p-20 text-center relative overflow-hidden">
-            <div className="absolute inset-0 opacity-10 pointer-events-none">
-              <div className="absolute top-0 left-0 w-full h-full" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '40px 40px' }}></div>
-            </div>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-white mb-6 md:mb-8 relative z-10">Ready to simplify your taxes?</h2>
-            <p className="text-white/90 text-base md:text-lg mb-8 md:mb-12 max-w-xl mx-auto relative z-10">Join thousands of businesses already scaling with BharatBills. No credit card required to start.</p>
-            <div className="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center relative z-10">
-              <Link href="/auth/signup" className="bg-white text-[var(--primary)] px-10 md:px-12 py-4 md:py-5 rounded-xl font-black text-base md:text-xl hover:scale-105 active:scale-95 transition-all shadow-2xl">
-                Get Started For Free
-              </Link>
-              <a href="#" className="border-2 border-white/40 text-white px-10 md:px-12 py-4 md:py-5 rounded-xl font-bold text-base md:text-xl hover:bg-white/10 transition-all">
-                Contact Sales
-              </a>
-            </div>
-          </div>
+      <section className="py-20 px-6 md:px-8">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-3xl md:text-4xl font-black text-[var(--on-surface)] mb-6">
+            Ready to simplify your taxes?
+          </h2>
+          <p className="text-[var(--on-tertiary-fixed-variant)] mb-8 max-w-xl mx-auto">
+            Join thousands of businesses already scaling with BharatBills. No credit card required to start.
+          </p>
+          <Link href="/auth/signup" className="signature-gradient text-white px-10 py-5 rounded-xl font-black text-lg inline-flex items-center gap-2 hover:scale-105 transition-all">
+            Get Started Free <ArrowRight size={20} />
+          </Link>
         </div>
       </section>
 
@@ -257,11 +218,12 @@ export default function Home() {
             <p className="text-sm text-[var(--on-tertiary-fixed-variant)] mb-6">High-End GST Compliance for the modern Indian economy.</p>
           </div>
           <div>
-            <h4 className="font-bold text-[var(--on-surface)] mb-4">Resources</h4>
+            <h4 className="font-bold text-[var(--on-surface)] mb-4">Navigation</h4>
             <ul className="space-y-3">
-              <li><a className="text-sm text-[var(--on-tertiary-fixed-variant)] hover:text-[var(--primary)] transition-colors" href="#">GST Guide</a></li>
-              <li><a className="text-sm text-[var(--on-tertiary-fixed-variant)] hover:text-[var(--primary)] transition-colors" href="#">Support</a></li>
-              <li><a className="text-sm text-[var(--on-tertiary-fixed-variant)] hover:text-[var(--primary)] transition-colors" href="#">API Docs</a></li>
+              <li><Link className="text-sm text-[var(--on-tertiary-fixed-variant)] hover:text-[var(--primary)] transition-colors" href="/features">Features</Link></li>
+              <li><Link className="text-sm text-[var(--on-tertiary-fixed-variant)] hover:text-[var(--primary)] transition-colors" href="/compliance">Compliance</Link></li>
+              <li><Link className="text-sm text-[var(--on-tertiary-fixed-variant)] hover:text-[var(--primary)] transition-colors" href="/pricing">Pricing</Link></li>
+              <li><Link className="text-sm text-[var(--on-tertiary-fixed-variant)] hover:text-[var(--primary)] transition-colors" href="/about">About</Link></li>
             </ul>
           </div>
           <div>
@@ -274,7 +236,7 @@ export default function Home() {
           <div>
             <h4 className="font-bold text-[var(--on-surface)] mb-4">Company</h4>
             <ul className="space-y-3">
-              <li><a className="text-sm text-[var(--on-tertiary-fixed-variant)] hover:text-[var(--primary)] transition-colors" href="#">About Us</a></li>
+              <li><Link className="text-sm text-[var(--on-tertiary-fixed-variant)] hover:text-[var(--primary)] transition-colors" href="/about">About Us</Link></li>
               <li><a className="text-sm text-[var(--on-tertiary-fixed-variant)] hover:text-[var(--primary)] transition-colors" href="#">Contact</a></li>
             </ul>
           </div>
