@@ -51,6 +51,12 @@
   --info: #3b82f6;
   --info-light: #eff6ff;
 
+  --sidebar-bg: #0f172a;
+  --sidebar-hover: rgba(148, 163, 184, 0.25);
+  --sidebar-active: linear-gradient(135deg, rgba(251, 93, 38, 0.25) 0%, rgba(88, 101, 242, 0.2) 100%);
+  --sidebar-text: #97a3bd;
+  --sidebar-text-active: #f8fafc;
+
   --radius: 10px;
   --radius-lg: 16px;
   --radius-xl: 20px;
@@ -284,16 +290,16 @@ tbody tr:last-child td { border-bottom: none; }
 .sidebar-shell {
   width: 268px;
   min-height: 100vh;
-  background: linear-gradient(180deg, #0d1628 0%, #131f35 100%);
+  background: linear-gradient(180deg, var(--sidebar-bg) 0%, #131f35 100%);
   border-right: 1px solid rgba(148, 163, 184, 0.2);
 }
-.sidebar-hover { border-color: rgba(148, 163, 184, 0.25); }
+.sidebar-hover { border-color: var(--sidebar-hover); }
 .sidebar-active {
-  background: linear-gradient(135deg, rgba(251, 93, 38, 0.25) 0%, rgba(88, 101, 242, 0.2) 100%);
+  background: var(--sidebar-active);
   border: 1px solid rgba(251, 93, 38, 0.4);
 }
-.sidebar-text { color: #97a3bd; }
-.sidebar-text-active { color: #f8fafc; }
+.sidebar-text { color: var(--sidebar-text); }
+.sidebar-text-active { color: var(--sidebar-text-active); }
 
 .dashboard-main-shell {
   flex: 1;
