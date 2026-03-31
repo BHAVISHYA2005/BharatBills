@@ -85,14 +85,18 @@ export default function CustomersPage() {
                 <div>
                     <h1>Customers</h1>
                     <p>Manage your customer database</p>
+                    <div style={{ marginTop: 8 }}>
+                        <span className="badge badge-info">{customers.length} total</span>
+                    </div>
                 </div>
                 <button className="btn btn-primary" onClick={openCreate}><Plus size={16} /> Add Customer</button>
             </div>
 
-            {/* Search */}
-            <div style={{ marginBottom: 20, position: 'relative', maxWidth: 400 }}>
-                <Search size={16} style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-                <input className="input" placeholder="Search customers..." value={search} onChange={(e) => setSearch(e.target.value)} style={{ paddingLeft: 40 }} />
+            <div className="toolbar">
+                <div className="icon-input-wrap">
+                    <Search size={16} />
+                    <input className="input" placeholder="Search customers..." value={search} onChange={(e) => setSearch(e.target.value)} />
+                </div>
             </div>
 
             {customers.length === 0 ? (

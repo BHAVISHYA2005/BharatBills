@@ -119,7 +119,7 @@ export default function NewInvoicePage() {
     if (loading) return <div style={{ display: 'flex', justifyContent: 'center', paddingTop: 100 }}><div className="spinner" style={{ width: 32, height: 32 }} /></div>;
 
     return (
-        <div style={{ maxWidth: 900, margin: '0 auto' }}>
+        <div style={{ maxWidth: 980, margin: '0 auto' }}>
             <div style={{ marginBottom: 24 }}>
                 <Link href="/dashboard/invoices" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: 'var(--text-secondary)', textDecoration: 'none', fontSize: 14, marginBottom: 12 }}>
                     <ArrowLeft size={16} /> Back to invoices
@@ -155,7 +155,7 @@ export default function NewInvoicePage() {
             {/* Invoice details */}
             <div className="card" style={{ marginBottom: 20 }}>
                 <div className="card-body">
-                    <h3 style={{ fontSize: 15, fontWeight: 600, marginBottom: 16 }}>Invoice Details</h3>
+                    <h3 className="section-title">Invoice Details</h3>
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 14 }}>
                         <div>
                             <label className="label">Customer *</label>
@@ -194,7 +194,7 @@ export default function NewInvoicePage() {
             {/* Line Items */}
             <div className="card" style={{ marginBottom: 20 }}>
                 <div style={{ padding: '16px 24px', borderBottom: '1px solid var(--border-light)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <h3 style={{ fontSize: 15, fontWeight: 600 }}>Line Items</h3>
+                    <h3 className="section-title" style={{ marginBottom: 0 }}>Line Items</h3>
                     <button className="btn btn-secondary btn-sm" onClick={addItem} disabled={products.length === 0}><Plus size={14} /> Add Item</button>
                 </div>
                 <div style={{ padding: 24 }}>
@@ -210,7 +210,7 @@ export default function NewInvoicePage() {
                             )}
                         </div>
                     ) : (
-                        <div style={{ overflowX: 'auto' }}>
+                        <div className="muted-panel" style={{ overflowX: 'auto', padding: 10 }}>
                             <table>
                                 <thead>
                                     <tr>
@@ -253,7 +253,7 @@ export default function NewInvoicePage() {
             {items.length > 0 && (
                 <div className="card" style={{ marginBottom: 20 }}>
                     <div className="card-body">
-                        <div style={{ maxWidth: 320, marginLeft: 'auto', display: 'grid', gap: 8 }}>
+                        <div className="muted-panel" style={{ maxWidth: 360, marginLeft: 'auto', display: 'grid', gap: 8, padding: 16 }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 14 }}>
                                 <span style={{ color: 'var(--text-secondary)' }}>Subtotal</span>
                                 <span>{formatCurrency(totals.subtotal)}</span>

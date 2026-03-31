@@ -31,6 +31,7 @@
   --outline: #a8b4c8;
   --outline-variant: #d8e0ee;
   --border: #e2e8f0;
+  --border-light: #edf2fb;
 
   --text: #111827;
   --text-secondary: #475569;
@@ -188,6 +189,59 @@ td { padding: 14px 16px; font-size: 14px; border-bottom: 1px solid #edf2fb; }
 tbody tr { transition: background var(--transition); }
 tbody tr:hover { background: #f8fbff; }
 tbody tr:last-child td { border-bottom: none; }
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.toolbar-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.icon-input-wrap {
+  position: relative;
+  min-width: 260px;
+  max-width: 420px;
+  flex: 1 1 300px;
+}
+
+.icon-input-wrap svg {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+}
+
+.icon-input-wrap .input {
+  padding-left: 40px;
+}
+
+.chip-group {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+
+.muted-panel {
+  background: #f8fbff;
+  border: 1px solid var(--border-light);
+  border-radius: 14px;
+}
 
 /* Empty state */
 .empty-state { text-align: center; padding: 60px 20px; color: var(--text-muted); }

@@ -85,13 +85,18 @@ export default function ProductsPage() {
                 <div>
                     <h1>Products</h1>
                     <p>Manage your product and HSN catalog</p>
+                    <div style={{ marginTop: 8 }}>
+                        <span className="badge badge-info">{products.length} total</span>
+                    </div>
                 </div>
                 <button className="btn btn-primary" onClick={openCreate}><Plus size={16} /> Add Product</button>
             </div>
 
-            <div style={{ marginBottom: 20, position: 'relative', maxWidth: 400 }}>
-                <Search size={16} style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-                <input className="input" placeholder="Search products..." value={search} onChange={(e) => setSearch(e.target.value)} style={{ paddingLeft: 40 }} />
+            <div className="toolbar">
+                <div className="icon-input-wrap">
+                    <Search size={16} />
+                    <input className="input" placeholder="Search products..." value={search} onChange={(e) => setSearch(e.target.value)} />
+                </div>
             </div>
 
             {products.length === 0 ? (

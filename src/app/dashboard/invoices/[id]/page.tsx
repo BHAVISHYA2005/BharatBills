@@ -74,7 +74,7 @@ export default function InvoiceDetailPage({ params }: { params: Promise<{ id: st
     const nextStatus = statusFlow[statusFlow.indexOf(invoice.status) + 1];
 
     return (
-        <div style={{ maxWidth: 800, margin: '0 auto' }}>
+        <div style={{ maxWidth: 900, margin: '0 auto' }}>
             <Link href="/dashboard/invoices" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: 'var(--text-secondary)', textDecoration: 'none', fontSize: 14, marginBottom: 12 }}>
                 <ArrowLeft size={16} /> Back to invoices
             </Link>
@@ -156,7 +156,7 @@ export default function InvoiceDetailPage({ params }: { params: Promise<{ id: st
                     </div>
 
                     {/* Totals */}
-                    <div style={{ maxWidth: 300, marginLeft: 'auto', marginTop: 24, display: 'grid', gap: 6 }}>
+                    <div className="muted-panel" style={{ maxWidth: 340, marginLeft: 'auto', marginTop: 24, display: 'grid', gap: 6, padding: 14 }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 14 }}>
                             <span style={{ color: 'var(--text-secondary)' }}>Subtotal</span>
                             <span>{formatCurrency(invoice.subtotal)}</span>
@@ -185,7 +185,7 @@ export default function InvoiceDetailPage({ params }: { params: Promise<{ id: st
                     </div>
 
                     {invoice.notes && (
-                        <div style={{ marginTop: 24, padding: 16, background: 'var(--bg)', borderRadius: 'var(--radius)', fontSize: 14, color: 'var(--text-secondary)' }}>
+                        <div className="muted-panel" style={{ marginTop: 24, padding: 16, fontSize: 14, color: 'var(--text-secondary)' }}>
                             <strong>Notes:</strong> {invoice.notes}
                         </div>
                     )}
