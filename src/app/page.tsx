@@ -82,11 +82,10 @@ export default function Home() {
             </span>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-[var(--on-surface)] leading-[1.05] tracking-tight mb-6 md:mb-8">
               Invoicing that{' '}
-              <span className="relative inline-block">
-                <span className="relative z-10 text-transparent bg-clip-text signature-gradient">
+              <span className="relative inline-flex items-center px-2.5 py-1 md:px-3 md:py-1.5 rounded-xl bg-gradient-to-r from-[#5b21b6]/12 to-[#7c3aed]/8 border border-[#7c3aed]/18 shadow-[0_8px_22px_rgba(124,58,237,0.16)]">
+                <span className="relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-[#4c1d95] to-[#6d28d9]">
                   Empowers
                 </span>
-                <span className="absolute -inset-2 bg-white/50 rounded-full blur-xl" />
               </span>{' '}
               Indian SMBs.
             </h1>
