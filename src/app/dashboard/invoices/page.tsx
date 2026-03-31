@@ -53,12 +53,12 @@ export default function InvoicesPage() {
                 <Link href="/dashboard/invoices/new" className="btn btn-primary"><Plus size={16} /> New Invoice</Link>
             </div>
 
-            <div style={{ display: 'flex', gap: 12, marginBottom: 20, flexWrap: 'wrap', alignItems: 'center' }}>
-                <div style={{ position: 'relative', flex: '1 1 300px', maxWidth: 400 }}>
-                    <Search size={16} style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-                    <input className="input" placeholder="Search by invoice # or customer..." value={search} onChange={(e) => setSearch(e.target.value)} style={{ paddingLeft: 40 }} />
+            <div className="toolbar">
+                <div className="icon-input-wrap">
+                    <Search size={16} />
+                    <input className="input" placeholder="Search by invoice # or customer..." value={search} onChange={(e) => setSearch(e.target.value)} />
                 </div>
-                <div style={{ display: 'flex', gap: 4 }}>
+                <div className="chip-group">
                     {statuses.map(s => (
                         <button
                             key={s}
