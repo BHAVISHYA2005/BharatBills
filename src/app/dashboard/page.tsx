@@ -67,7 +67,7 @@ export default function DashboardPage() {
             <div className="page-header">
                 <div>
                     <h1>Dashboard</h1>
-                    <p>Overview of your business</p>
+                    <p>Overview of revenue, invoices, and collections</p>
                 </div>
                 <Link href="/dashboard/invoices/new" className="btn btn-primary">
                     <Plus size={16} /> New Invoice
@@ -103,7 +103,7 @@ export default function DashboardPage() {
 
             {/* Recent Invoices */}
             <div className="card">
-                <div style={{ padding: '20px 24px', borderBottom: '1px solid var(--border-light)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div style={{ padding: '20px 24px', borderBottom: '1px solid var(--border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <h2 style={{ fontSize: 16, fontWeight: 600 }}>Recent Invoices</h2>
                     <Link href="/dashboard/invoices" style={{ fontSize: 13, color: 'var(--primary)', textDecoration: 'none', fontWeight: 500 }}>View all →</Link>
                 </div>

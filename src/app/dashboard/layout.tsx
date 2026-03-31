@@ -5,15 +5,16 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     return (
         <div style={{ display: 'flex', minHeight: '100vh' }}>
             <Sidebar />
-            <main style={{ flex: 1, marginLeft: 250, padding: '32px 32px', minHeight: '100vh', background: 'var(--bg)' }} className="dashboard-main">
-                <Breadcrumbs />
-                {children}
+            <main className="dashboard-main-shell">
+                <div className="top-blur-bar">
+                    <div className="dashboard-inner">
+                        <Breadcrumbs />
+                    </div>
+                </div>
+                <div className="dashboard-inner">
+                    {children}
+                </div>
             </main>
-            <style>{`
-        @media (max-width: 768px) {
-          .dashboard-main { margin-left: 0 !important; padding: 24px 16px !important; padding-top: 60px !important; }
-        }
-      `}</style>
         </div>
     );
 }
